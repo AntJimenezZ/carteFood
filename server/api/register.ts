@@ -15,6 +15,11 @@ export default defineEventHandler(async (event) => {
   const { error } = await supabase.auth.signUp({
     email: user.mail,
     password: user.password,
+    options: {
+      data: {
+        name: user.name,
+      },
+    },
   });
 
   if (error) {

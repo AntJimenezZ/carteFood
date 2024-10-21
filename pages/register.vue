@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { createClient } from "@supabase/supabase-js";
 import { useRouter } from 'vue-router';
 
 
@@ -13,10 +12,28 @@ const password = ref("");
 const password2 = ref("");
 const router = useRouter();
 
+const error = ref(false);
+
+const errorType = ref("");
+
+
 
 async function register() {
 
   try {
+
+    if (password.value !== password2.value) {
+      error.value = true;
+      errorType.value = "Las contraseñas no coinciden";
+      console.log("Las contraseñas no coinciden");
+      return;
+    }
+    if (password.value.length < 6) {
+      error.value = true;
+      errorType.value = "La contraseña debe tener al menos 6 caracteres";
+      console.log("La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
 
     const response = await fetch('api/register', {
       method: 'POST',
@@ -36,6 +53,8 @@ async function register() {
       router.push('/login');
     } else {
       console.log("Error al registrarse");
+      error.value = true;
+      errorType.value = "Error al registrarse";
     }
   }
   catch (error) {
@@ -76,6 +95,9 @@ async function register() {
         placeholder="Confirmar contraseña"
         class="mb-4 w-full p-2"
       />
+      <div v-if="error" class="mb-8 font-semibold">
+        <p class="text-red-500">{{errorType}}</p>
+      </div>
       <UButton @click="register" block color="blue" class="w-full"
         >Registrarse</UButton
       >

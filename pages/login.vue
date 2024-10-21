@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { createClient } from "@supabase/supabase-js";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -9,10 +8,12 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const mail = ref('');
 const password = ref('');
+const error = ref(false);
+const errorType = ref('');
 
 async function login() {
- 
-  try{
+
+  try {
 
     const response = await fetch('api/login', {
       method: 'POST',
@@ -26,14 +27,16 @@ async function login() {
     });
 
     const data = await response.json();
-    if  (data.statusCode === 200){
+    if (data.statusCode === 200) {
       console.log("Inicio de sesión exitoso");
       router.push('/');
     } else {
       console.log("Error al iniciar sesión");
+      error.value = true;
+      errorType.value = "Error al iniciar sesión";
     }
   }
-  catch(error){
+  catch (error) {
     console.log("Error al iniciar sesión:");
   }
 
@@ -47,6 +50,9 @@ async function login() {
     <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
       <UInput v-model="mail" color="blue" placeholder="Correo electronico" class="mb-4 w-full p-2 " />
       <UInput v-model="password" color="blue" type="contraseña" placeholder="Contraseña" class="mb-4 w-full p-2" />
+      <div v-if="error" class="mb-4 font-semibold">
+        <p class="text-red-500">{{ errorType }}</p>
+      </div>
       <UButton @click="login" block color="blue" class="w-full">Iniciar
         Sesión</UButton>
 
@@ -55,8 +61,8 @@ async function login() {
       </div>
     </div>
   </div>
+
+
 </template>
 
-<style>
-
-</style>
+<style></style>
