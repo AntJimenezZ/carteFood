@@ -1,29 +1,40 @@
 <script lang="ts" setup>
 import { createClient } from "@supabase/supabase-js";
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+
+
+
+const router = useRouter();
 const mail = ref('');
 const password = ref('');
 
-
-
-//No sirve porque hay que cambiar la url en supabase
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-
-
 async function login() {
  
-  const { error } = await supabase.auth.signInWithPassword({
-    email: mail.value,
-    password: password.value,
-  });
-  if (error) {
-    console.log("Error al registrar el usuario:", error.message);
-  } else {
-    console.log("Usuario registrado:");
+  try{
+
+    const response = await fetch('api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        mail: mail.value,
+        password: password.value
+      })
+    });
+
+    const data = await response.json();
+    if  (data.statusCode === 200){
+      console.log("Inicio de sesión exitoso");
+      router.push('/');
+    } else {
+      console.log("Error al iniciar sesión");
+    }
+  }
+  catch(error){
+    console.log("Error al iniciar sesión:");
   }
 
 }

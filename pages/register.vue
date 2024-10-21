@@ -1,42 +1,50 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from 'vue-router';
+
+
+
+
 
 const name = ref("");
 const mail = ref("");
 const password = ref("");
 const password2 = ref("");
+const router = useRouter();
 
 
+async function register() {
 
-//No sirve porque hay que cambiar la url en supabase
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+  try {
 
+    const response = await fetch('api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name.value,
+        mail: mail.value,
+        password: password.value
+      })
+    });
 
-async function getCountries() {
-  const { data } = await supabase.from("favorites").select();
-  console.log(data);
+    const data = await response.json();
+    if (data.statusCode === 200) {
+      console.log("registro exitoso");
+      router.push('/login');
+    } else {
+      console.log("Error al registrarse");
+    }
+  }
+  catch (error) {
+    console.log("Error al registrarse");
+  }
+
 }
 
 
-async function registerUser() {
-  const { error } = await supabase.auth.signUp({
-    email: mail.value,
-    password: password.value,
-  });
-  if (error) {
-    console.log("Error al registrar el usuario:", error.message);
-  } else {
-    console.log("Usuario registrado:");
-  }
-};
-
-
-onMounted(() => {
-  getCountries();
-});
 </script>
 
 <template>
@@ -68,8 +76,8 @@ onMounted(() => {
         placeholder="Confirmar contraseña"
         class="mb-4 w-full p-2"
       />
-      <UButton @click="registerUser" block color="blue" class="w-full"
-        >Iniciar Sesión</UButton
+      <UButton @click="register" block color="blue" class="w-full"
+        >Registrarse</UButton
       >
 
       <div class="text-center mt-4">
