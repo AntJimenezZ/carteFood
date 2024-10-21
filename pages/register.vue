@@ -34,6 +34,18 @@ async function register() {
       console.log("La contraseña debe tener al menos 6 caracteres");
       return;
     }
+    if (name.value.length < 1) {
+      error.value = true;
+      errorType.value = "El nombre no puede estar vacío";
+      console.log("El nombre no puede estar vacío");
+      return;
+    }
+    if (mail.value.length < 1) {
+      error.value = true;
+      errorType.value = "El correo no puede estar vacío";
+      console.log("El correo no puede estar vacío");
+      return;
+    }
 
     const response = await fetch('api/register', {
       method: 'POST',
