@@ -2,7 +2,6 @@
   <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Recetas Deliciosas</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Tarjeta de lista de recetas -->
       <UCard class="col-span-1 p-4">
         <div class="mb-4">
           <h2 class="text-xl font-semibold">Lista de Recetas</h2>
@@ -22,7 +21,6 @@
         </ul>
       </UCard>
 
-      <!-- Tarjeta de detalles de la receta -->
       <UCard class="col-span-1 p-4">
         <div class="mb-4">
           <h2 class="text-xl font-semibold">
@@ -33,18 +31,36 @@
           </p>
         </div>
         <div v-if="recetaSeleccionada">
-          <h3 class="font-semibold mb-2">Ingredientes:</h3>
+          <h3 class="font-semibold mb-2">Ingredientes de la receta (editable):</h3>
           <ul class="list-disc list-inside mb-4">
-            <li v-for="(ingrediente, index) in recetaSeleccionada.ingredientes" :key="index">{{ ingrediente }}</li>
+            <li v-for="ingredienteRel in recetaSeleccionada.receta_ingrediente" :key="ingredienteRel.ingrediente_id.id">
+              <label>
+                <input type="checkbox" :value="ingredienteRel.ingrediente_id.id" v-model="ingredientesSeleccionados" checked />
+                {{ ingredienteRel.ingrediente_id.nombre }}
+              </label>
+            </li>
           </ul>
+
+          <h3 class="font-semibold mb-2">Ingredientes extra:</h3>
+          <ul class="list-disc list-inside mb-4">
+            <li v-for="ingrediente in ingredientes" :key="ingrediente.id">
+              <label>
+                <input type="checkbox" :value="ingrediente.id" v-model="ingredientesSeleccionados" />
+                {{ ingrediente.nombre }}
+              </label>
+            </li>
+          </ul>
+
           <h3 class="font-semibold mb-2">Instrucciones:</h3>
           <ol class="list-decimal list-inside">
             <li v-for="(instruccion, index) in recetaSeleccionada.instrucciones" :key="index">{{ instruccion }}</li>
           </ol>
         </div>
         <p v-else>No hay receta seleccionada</p>
+
         <div class="mt-4" v-if="recetaSeleccionada">
           <UButton variant="outline" @click="recetaSeleccionada = null">Volver a la lista</UButton>
+          <UButton class="ml-2" @click="confirmarPedido">Confirmar Pedido</UButton>
         </div>
       </UCard>
     </div>
@@ -53,30 +69,39 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { UCard, UButton, UIcon } from 'nuxt-ui'
-import { useFetch } from '#app'
+import { useState } from '#app'
 
-// Estado de las recetas y de la receta seleccionada
-const recetas = ref([])
+const recetas = useState('recetas', () => [])
 const recetaSeleccionada = ref(null)
+const ingredientes = ref([]) 
+const ingredientesSeleccionados = ref([]) 
 
-// Función para seleccionar receta
 function seleccionarReceta(receta) {
   recetaSeleccionada.value = receta
+  ingredientesSeleccionados.value = receta.receta_ingrediente.map(ing => ing.ingrediente_id.id)
 }
 
-// Cargar las recetas desde la API cuando se monte el componente
+async function cargarIngredientes() {
+  try {
+    const data = await $fetch('/api/ingredientes')
+    ingredientes.value = data.ingredientes
+  } catch (error) {
+    console.error("Error al cargar los ingredientes:", error)
+  }
+}
+
+function confirmarPedido() {
+  console.log("Receta seleccionada:", recetaSeleccionada.value)
+  console.log("Ingredientes seleccionados:", ingredientesSeleccionados.value)
+}
+
 onMounted(async () => {
-  const { data, error } = await useFetch('/api/recetas')
-  
-  if (error.value) {
-    console.error("Error al cargar las recetas:", error.value)
-  } else {
-    recetas.value = data.value.recetas
+  try {
+    const data = await $fetch('/api/recetas')
+    recetas.value = data.recetas
+    await cargarIngredientes() 
+  } catch (error) {
+    console.error("Error al cargar las recetas:", error)
   }
 })
 </script>
-
-<style scoped>
-/* Estilos adicionales si son necesarios */
-</style>

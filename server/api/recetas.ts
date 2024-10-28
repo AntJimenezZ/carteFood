@@ -1,29 +1,36 @@
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "~/types/supabase";
+// /server/api/recetas.ts
+import { createClient } from '@supabase/supabase-js'
+import { defineEventHandler } from 'h3'
 
-const supabase = createClient<Database>(
+const supabase = createClient(
   process.env.SUPABASE_URL as string,
   process.env.SUPABASE_KEY as string
 );
 
-export default defineEventHandler(async (event) => {
-  try {
-    // Obtener todas las recetas desde la tabla 'recetas'
-    const { data, error } = await supabase
-      .from("recetas")
-      .select("*");
+export default defineEventHandler(async () => {
+  console.log("Gola"); // Esto debería aparecer si el endpoint está siendo llamado
 
-    if (error) {
-      console.error("Error al obtener recetas:", error);
-      return { success: false, message: "Error al obtener recetas" };
-    }
+  const { data, error } = await supabase
+    .from('recetas')
+    .select(`
+      id,
+      nombre,
+      descripcion,
+      instrucciones,
+      created_at,
+      receta_ingrediente (
+        ingrediente_id (
+          id,
+          nombre
+        )
+      )
+    `)
 
-    return {
-      success: true,
-      recetas: data,
-    };
-  } catch (error) {
-    console.error("Error interno del servidor:", error);
-    return { success: false, message: "Error interno del servidor" };
+  if (error) {
+    console.error("Error al consultar la tabla 'recetas':", error)
+    throw new Error('No se pudieron obtener las recetas')
   }
-});
+
+  // data incluirá las recetas y los ingredientes relacionados
+  return { recetas: data || [] }
+})
