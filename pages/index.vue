@@ -6,19 +6,19 @@
     </header>
 
     <section class="w-full max-w-4xl">
-      <h2 class="text-2xl font-semibold mb-4">Platos Destacados</h2>
+      <h2 class="text-2xl font-semibold mb-4">Opciones</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-white p-4 rounded shadow-md">
-          <h3 class="text-xl font-bold mb-2">Plato 1</h3>
-          <p class="text-gray-700">Descripción del plato 1.</p>
+          <h3 class="text-xl font-bold mb-2">Ir a menú cliente</h3>
+          <a href="/menu" class="text-blue-500">Ver más</a>
         </div>
         <div class="bg-white p-4 rounded shadow-md">
-          <h3 class="text-xl font-bold mb-2">Plato 2</h3>
-          <p class="text-gray-700">Descripción del plato 2.</p>
+          <h3 class="text-xl font-bold mb-2">Ir a opciones administrador</h3>
+          <a href="/admin" class="text-blue-500">Ver más</a>
         </div>
         <div class="bg-white p-4 rounded shadow-md">
-          <h3 class="text-xl font-bold mb-2">Plato 3</h3>
-          <p class="text-gray-700">Descripción del plato 3.</p>
+          <h3 class="text-xl font-bold mb-2">Registro</h3>
+          <a href="/register" class="text-blue-500">Ver más</a>
         </div>
       </div>
     </section>
