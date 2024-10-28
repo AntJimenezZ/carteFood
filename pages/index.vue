@@ -14,7 +14,7 @@
         </div>
         <div class="bg-white p-4 rounded shadow-md">
           <h3 class="text-xl font-bold mb-2">Ir a opciones administrador</h3>
-          <a href="/admin" class="text-blue-500">Ver más</a>
+          <a href="/createDish" class="text-blue-500">Ver más</a>
         </div>
         <div class="bg-white p-4 rounded shadow-md">
           <h3 class="text-xl font-bold mb-2">Registro</h3>
