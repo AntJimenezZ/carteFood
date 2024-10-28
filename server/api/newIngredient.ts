@@ -1,4 +1,3 @@
-
 import { createClient } from "@supabase/supabase-js";
 import { defineEventHandler } from "h3";
 
@@ -9,12 +8,25 @@ const supabase = createClient(
 
 
 export default defineEventHandler(async (event) => {
+  console.log("event", event);
+  const ingredient = await readBody(event);
 
 
-  const { data, error } = await supabase.from("ingredientes").insert([
-    { nombre: "Nitro"},
-  ]);
-  return 'Hello Nitro'
+  const { error } = await supabase
+    .from("ingredientes")
+    .insert({
+      nombre: ingredient.nombre,
+    })
 
-
-})
+  if (error) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: "Error al insertarse" }),
+    };
+  } else {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "ingrediente agregado correctamente" }),
+    };
+  }
+});

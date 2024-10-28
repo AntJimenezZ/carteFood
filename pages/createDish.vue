@@ -61,10 +61,39 @@ const fetchIngredients = async () => {
 }
 
 const createDish = () => {
-   
+
+    console.log("sdas");
+    
 }
-const addIngredient = () => {
-    console.log(newIngredient.value);
+
+
+const addIngredient = async () => {
+    try{
+        const response = await $fetch('/api/newIngredient', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: newIngredient.value.charAt(0).toUpperCase() + newIngredient.value.slice(1)
+            })
+        });
+        const data = response.statusCode;
+
+        if (data === 200) {
+            console.log("Ingrediente agregado correctamente");
+            await fetchIngredients();
+        }
+        else {
+            console.log("Error al agregar el ingrediente");
+            alert("El ingrediente ya existe");
+        }
+        
+    }
+    catch(error){
+        console.log("Error al agregar el ingrediente");
+    }
+    
 
     
 
