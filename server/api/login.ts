@@ -22,9 +22,12 @@ export default defineEventHandler(async (event) => {
       body: JSON.stringify({ message: "Error al iniciar sesión" }),
     };
   } else {
+
+    const token =  (await supabase.auth.getUser()).data.user?.email;
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "Sesión iniciada correctamente" }),
+      token : token
     };
   }
 });

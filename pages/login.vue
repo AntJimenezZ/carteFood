@@ -29,6 +29,7 @@ async function login() {
     const data = await response.json();
     if (data.statusCode === 200) {
       console.log("Inicio de sesión exitoso");
+      localStorage.setItem('token', data.token);
       router.push('/');
     } else {
       console.log("Error al iniciar sesión");

@@ -21,6 +21,7 @@
           <a href="/register" class="text-blue-500">Ver más</a>
         </div>
       </div>
+      <UButton @click="getUser" block color="blue" class="w-full mt-8">Obtener Usuario</UButton>
     </section>
 
     <footer class="mt-8">
@@ -30,6 +31,20 @@
 </template>
 
 <script lang="ts" setup>
+
+
+
+
+
+  async function getUser(){
+
+    console.log(localStorage.getItem('token'));
+  
+  }
+
+
+
+
 </script>
 
 <style>
