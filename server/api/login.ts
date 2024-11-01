@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     };
   } else {
 
-    const token =  (await supabase.auth.getUser()).data.user?.email;
+    const token =  (await supabase.auth.getUser()).data.user?.id;
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "Sesión iniciada correctamente" }),
