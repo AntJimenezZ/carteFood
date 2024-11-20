@@ -7,19 +7,20 @@
         <div class="mb-6">
           <h2 class="text-2xl font-semibold mb-2">Lista de Recetas</h2>
           <p class="text-gray-600 mb-4">Selecciona una receta para ver más detalles o agrega una nueva receta.</p>
-          <UButton class="w-full mb-4" @click="agregarReceta">Agregar Receta</UButton>
+          <UButton class="w-full mb-4" color="cyan" @click="agregarReceta">Agregar Receta</UButton>
         </div>
         <ul class="space-y-3">
           <li v-for="receta in recetas" :key="receta.id" class="flex items-center justify-between">
             <UButton
               variant="outline"
               class="text-left justify-start flex-grow"
+              color="cyan"
               @click="seleccionarReceta(receta)"
             >
               <UIcon name="fluent:food-20-regular" class="mr-2 h-5 w-5" />
               {{ receta.nombre }}
             </UButton>
-            <UButton class="ml-2" color="red" @click="eliminarReceta(receta.id)">Eliminar</UButton>
+            <UButton class="ml-2" color="pink" @click="eliminarReceta(receta.id)">Eliminar</UButton>
           </li>
         </ul>
       </UCard>
@@ -63,15 +64,15 @@
             <ol class="space-y-3 list-decimal pl-5">
               <li v-for="(instruccion, index) in recetaSeleccionada.instrucciones" :key="index" class="flex items-center">
                 <input v-model="recetaSeleccionada.instrucciones[index]" @input="actualizarReceta" class="flex-grow p-2 border rounded mr-2" />
-                <UButton color="red" @click="eliminarInstruccion(index)">Eliminar</UButton>
+                <UButton color="pink" @click="eliminarInstruccion(index)">Eliminar</UButton>
               </li>
             </ol>
-            <UButton class="mt-4 w-full" @click="agregarInstruccion">Agregar Instrucción</UButton>
+            <UButton class="mt-4 w-full" color="cyan" @click="agregarInstruccion">Agregar Instrucción</UButton>
           </div>
           
           <div class="mt-6 flex justify-end space-x-4">
-            <UButton variant="outline" @click="recetaSeleccionada = null">Cancelar</UButton>
-            <UButton @click="actualizarReceta">Guardar Cambios</UButton>
+            <UButton variant="outline" color="cyan" @click="recetaSeleccionada = null">Cancelar</UButton>
+            <UButton color="cyan" @click="actualizarReceta">Guardar Cambios</UButton>
           </div>
         </div>
       </UCard>
