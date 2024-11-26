@@ -50,7 +50,7 @@ async function login() {
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
       <UInput v-model="mail" color="blue" placeholder="Correo electronico" class="mb-4 w-full p-2 " />
-      <UInput v-model="password" color="blue" type="contraseña" placeholder="Contraseña" class="mb-4 w-full p-2" />
+      <UInput v-model="password" color="blue" type="password" placeholder="Contraseña" class="mb-4 w-full p-2" />
       <div v-if="error" class="mb-4 font-semibold">
         <p class="text-red-500">{{ errorType }}</p>
       </div>
