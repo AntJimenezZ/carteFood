@@ -7,11 +7,13 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'; // Para ejecutar código cuando el componente ya está montado
+import { useRouter } from 'vue-router'; // Importar el router
 
 const router = useRouter();
 
-async function ifLogin() {
+// Verifica si el usuario está logueado
+function ifLogin() {
   const token = localStorage.getItem('token');
   if (token === null) {
     router.push('/login');
@@ -20,5 +22,8 @@ async function ifLogin() {
   }
 }
 
-ifLogin();
+// Ejecuta la verificación solo en el cliente después de montar el componente
+onMounted(() => {
+  ifLogin();
+});
 </script>
