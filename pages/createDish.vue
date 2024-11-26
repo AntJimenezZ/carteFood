@@ -6,7 +6,11 @@
             <UButton @click="addIngredient" :disabled="newIngredient.length < 1" color="cyan" class="w-full">
                 Agregar
             </UButton>
+            <h2 class="text-xl font-semibold mt-6 mb-2 text-center">Lista de Ingredientes</h2>
+            <USelect v-model="ingrediente" :options="ingredientes" option-attribute="nombre" />
+            
         </div>
+
     </div>
 </template>
 
@@ -24,32 +28,10 @@ interface Ingrediente {
 
 
 const ingredientes = ref<any[]>([])
+const ingrediente = ref<any | null>(null)
 
-const selectedIngredients = ref<number[]>([]);
 
 const newIngredient = ref('');
-
-const dishName = ref('');
-
-const fetchIngredients = async () => {
-    try {
-        const data = await $fetch('/api/ingredientes')
-
-        ingredientes.value = data.ingredientes.map((ingrediente: any) => ({
-            value: ingrediente.id,
-            label: ingrediente.nombre
-        }));
-
-    } catch (error) {
-        console.log("Error al obtener los ingredientes");
-    }
-}
-
-const createDish = () => {
-
-    console.log("sdas");
-    
-}
 
 
 const addIngredient = async () => {
@@ -67,7 +49,8 @@ const addIngredient = async () => {
 
         if (data === 200) {
             console.log("Ingrediente agregado correctamente");
-            await fetchIngredients();
+            alert("Ingrediente agregado correctamente");
+            newIngredient.value = '';
         }
         else {
             console.log("Error al agregar el ingrediente");
@@ -84,8 +67,21 @@ const addIngredient = async () => {
 
 }
 
+cargarIngredientes();
+
+async function cargarIngredientes() {
+    try {
+        const data = await $fetch('/api/ingredientes')
+        ingredientes.value = data.ingredientes
+        console.log(data)
+    } catch (error) {
+        console.error("Error al cargar los ingredientes:", error)
+    }
+}
+
+
 onMounted(async () => {
-    await fetchIngredients();
+    await cargarIngredientes();
 });
 
 
