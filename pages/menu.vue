@@ -7,7 +7,7 @@
         <div class="mb-6">
           <h2 class="text-2xl font-semibold mb-2">Lista de Recetas</h2>
           <p class="text-gray-600 mb-4">Selecciona una receta para ver más detalles o agrega una nueva receta.</p>
-          <UButton class="w-full mb-4" color="cyan" @click="agregarReceta">Agregar Receta</UButton>
+          <UButton class="w-full mb-4" color="yellow" @click="agregarReceta">Agregar Receta</UButton>
         </div>
         <ul class="space-y-3">
           <li v-for="receta in recetas" :key="receta.id" class="flex items-center justify-between">

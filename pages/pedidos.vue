@@ -9,7 +9,7 @@
         <ul class="list-disc list-inside mb-2">
           <li v-for="instruccion in receta.instrucciones" :key="instruccion">{{ instruccion }}</li>
         </ul>
-        <UButton @click="eliminarReceta(receta.uniqueId)" color="red" class="mt-2">Pedido completado</UButton>
+        <UButton @click="eliminarReceta(receta.uniqueId)" color="red" class="mt-2">Completar</UButton>
       </div>
     </div>
     <div v-else>
