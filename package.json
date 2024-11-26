@@ -13,6 +13,7 @@
     "@iconify/utils": "^2.1.33",
     "@nuxt/ui": "^2.18.7",
     "@supabase/supabase-js": "^2.45.6",
+    "axios": "^1.7.8",
     "lucide-vue-next": "^0.453.0",
     "nuxt": "^3.13.2",
     "vue": "latest",

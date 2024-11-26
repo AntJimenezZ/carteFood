@@ -40,6 +40,10 @@
               rows="3"
               placeholder="Descripción de la receta"
             ></textarea>
+          <div class="mb-6">
+            <label class="block mb-2 font-semibold">Precio de la Receta:</label>
+            <input type="number" v-model="recetaSeleccionada.precio" @input="actualizarReceta" class="w-full p-2 border rounded" />
+          </div>
           </div>
           
           <div class="mb-6">
@@ -117,6 +121,7 @@ async function agregarReceta() {
   const nuevaReceta = {
     nombre: 'Nueva Receta',
     descripcion: 'Descripción',
+    precio: 0,
     instrucciones: [],
     id_rest: localStorage.getItem('token')
   }
@@ -130,7 +135,7 @@ async function agregarReceta() {
 
 async function eliminarReceta(id) {
   await $fetch(`/api/recetas?id=${id}`, { method: 'DELETE' })
-  await cargarRecetas() 
+  await cargarRecetas()
 }
 
 async function actualizarReceta() {
@@ -138,6 +143,7 @@ async function actualizarReceta() {
     method: 'PATCH',
     body: recetaSeleccionada.value
   })
+  await cargarRecetas();
 }
 
 function ingredienteSeleccionado(ingredienteId) {

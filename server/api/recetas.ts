@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
       .select(`
         id,
         nombre,
+        precio,
         descripcion,
         instrucciones,
         id_rest,
@@ -51,10 +52,10 @@ export default defineEventHandler(async (event) => {
 
   if (event.req.method === 'PATCH') {
     const body = await readBody(event);
-    const { id, nombre, descripcion, instrucciones } = body;
+    const { id, nombre, precio, descripcion, instrucciones } = body;
     const { error } = await supabase
       .from('recetas')
-      .update({ nombre, descripcion, instrucciones })
+      .update({ nombre, precio, descripcion, instrucciones })
       .eq('id', id);
 
     if (error) {
