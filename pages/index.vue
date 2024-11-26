@@ -6,7 +6,7 @@
     </header>
     <section class="w-full max-w-4xl">
       <h2 class="text-2xl font-semibold mb-4">Opciones</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-white p-4 rounded shadow-md">
           <h3 class="text-xl font-bold mb-2">Ir a opciones administrador</h3>
           <UButton to="/menu" color="cyan">Seleccionar</UButton>
@@ -14,6 +14,10 @@
         <div class="bg-white p-4 rounded shadow-md">
           <h3 class="text-xl font-bold mb-2">Agregar Ingrediente</h3>
           <UButton to="/createDish" color="cyan">Seleccionar</UButton>
+        </div>
+        <div class="bg-white p-4 rounded shadow-md">
+          <h3 class="text-xl font-bold mb-2">Ver Pedidos</h3>
+          <UButton to="/pedidos" color="cyan">Seleccionar</UButton>
         </div>
       </div>
     </section>
@@ -26,11 +30,6 @@
 
 
 
-  async function getUser(){
-
-    console.log(localStorage.getItem('token'));
-  
-  }
 
 
 
